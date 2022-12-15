@@ -1,0 +1,14 @@
+sanic==22.6.2
+diffusers
+transformers
+scipy
+ftfy
+accelerate
+argh
+dacite
+numpy
+pillow
+pydub
+scipy
+torch
+torchaudio
