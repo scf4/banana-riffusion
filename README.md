@@ -2,7 +2,7 @@
 
 Run [Riffusion](https://github.com/hmartiro/riffusion-inference) on [https://banana.dev](https://banana.dev)
 
-## Example input
+## Example input
 
 ```json
 {
@@ -26,11 +26,11 @@ Run [Riffusion](https://github.com/hmartiro/riffusion-inference) on [https://ban
 }
 ```
 
-## Example output
+## Example output
 
 ```json
 {
-  "image": "< base64 encoded JPEG image >",
-  "audio": "< base64 encoded MP3 clip >"
+  "image": "<base64 encoded JPEG image>",
+  "audio": "<base64 encoded MP3 clip>"
 }
 ```
