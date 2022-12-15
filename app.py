@@ -5,7 +5,6 @@ import io
 from pathlib import Path
 
 import dacite
-import PIL
 import torch
 from huggingface_hub import hf_hub_download
 from PIL import Image

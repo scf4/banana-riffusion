@@ -1,18 +1,35 @@
-import os
+import dataclasses
 
 import torch
 from huggingface_hub import hf_hub_download
 
+from riffusion.riffusion_pipeline import RiffusionPipeline
+
 
 def download_model():
-    HF_AUTH_TOKEN = os.getenv("HF_AUTH_TOKEN")
+    repo_id = "riffusion/riffusion-model-v1"
+    model = RiffusionPipeline.from_pretrained(repo_id, revision="main", torch_dtype=torch.float16, safety_checker=None)
+    @dataclasses.dataclass
+    class UNet2DConditionOutput:
+        sample: torch.FloatTensor
 
-    model_id = "stabilityai/stable-diffusion-2-1"
+    # Using traced unet from hf hub
+    unet_file = hf_hub_download("riffusion/riffusion-model-v1", filename="unet_traced.pt", subfolder="unet_traced")
+    unet_traced = torch.jit.load(unet_file)
 
-    # Load DPMSolver++ scheduler
-    scheduler = DPMSolverMultistepScheduler.from_pretrained(model_id, subfolder="scheduler", use_auth_token=HF_AUTH_TOKEN)
+    class TracedUNet(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            assert model is not None
+            self.in_channels = model.unet.in_channels
+            self.device = model.unet.device
+            self.dtype = torch.float16
 
-    model = StableDiffusionPipeline.from_pretrained(model_id, revision="fp16", torch_dtype=torch.float16, scheduler=scheduler, use_auth_token=HF_AUTH_TOKEN)
+        def forward(self, latent_model_input, t, encoder_hidden_states):
+            sample = unet_traced(latent_model_input, t, encoder_hidden_states)[0]
+            return UNet2DConditionOutput(sample=sample)
+
+    model.unet = TracedUNet()
 
 
 if __name__ == "__main__":
