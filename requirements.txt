@@ -6,9 +6,4 @@ ftfy
 accelerate
 argh
 dacite
-numpy
-pillow
 pydub
-scipy
-torch
-torchaudio
