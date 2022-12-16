@@ -8,3 +8,7 @@ argh
 dacite
 pydub
 torchaudio
+numpy
+pillow
+pydub
+torch
