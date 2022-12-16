@@ -7,3 +7,4 @@ accelerate
 argh
 dacite
 pydub
+torchaudio
