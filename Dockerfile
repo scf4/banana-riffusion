@@ -1,7 +1,6 @@
-FROM wallies/python-cuda:3.11-cuda11.7-runtime
+FROM wallies/python-cuda:3.10-cuda11.6-runtime
 
 WORKDIR /
-
 RUN pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
 
 # Install git
